@@ -1,0 +1,26 @@
+services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ems
+    ports:
+      - "3307:3306"
+    networks:
+      springboot-mysql-net:
+
+  springboot-restful-webservices:
+    container_name: ems-backend
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysqldb
+    networks:
+      springboot-mysql-net:
+
+networks:
+  springboot-mysql-net:
